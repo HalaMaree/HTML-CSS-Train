@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>User Information</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&family=Cairo:wght@200..1000&family=Concert+One&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 97vh;
+        background-color: #e3dbbb;
+        font-family: "Bruno Ace SC", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+      }
+      .details-card {
+        display: flex;
+        flex-direction: column;
+        width: 60%;
+        padding: 50px;
+        gap: 20px;
+        background-color: #f8f3e1;
+        border-radius: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+      .details-form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        /* background-color: red; */
+      }
+      input,
+      textarea,
+      select {
+        width: 95%;
+        padding: 10px;
+        margin: 8px 0px 0px 0px;
+        border: 2px solid #ddd;
+        border-radius: 10px;
+      }
+      input:focus,
+      textarea:focus,
+      select:focus {
+        border-color: black;
+      }
+
+      input[type="file"] {
+        border: 0px;
+        padding: 8px;
+        border-radius: 8px;
+      }
+
+      input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        margin: 0;
+      }
+
+      .terms-box {
+        grid-column: span 2;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      button {
+        width: 60%;
+        height: 60px;
+        padding: 10px;
+        margin-top: 20px;
+        background-color: #aeb784;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-family: "Bruno Ace SC", sans-serif;
+        font-size: 16px;
+        align-self: flex-end;
+      }
+      button:hover {
+        background-color: #41431b;
+      }
+      .buttons {
+        grid-template-columns: 1fr;
+        display: flex;
+        justify-content: flex-start;
+        gap: 20px;
+      }
+
+      @media (max-width: 600px) {
+        .details-form {
+          grid-template-columns: 1fr;
+        }
+
+        .details-form div:nth-last-child(2),
+        button {
+          grid-column: span 1;
+          justify-self: start;
+        }
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        padding-top: 100px;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+
+      .modal-content {
+        background-color: white;
+        margin: auto;
+        padding: 20px;
+        width: 80%;
+      }
+
+      .close {
+        color: #aaaaaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+
+      .close:hover,
+      .close:focus {
+        color: #000;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="details-card">
+      <h2>User Information</h2>
+      <form class="details-form">
+        <div>
+          <label>Full Name</label><br />
+          <input type="text" id="full-name" required />
+        </div>
+        <div>
+          <label>Profile Picture</label>
+          <input type="file" id="profile-picture" accept="image/*" />
+        </div>
+        <div>
+          <label>Professional Bio</label>
+          <textarea id="professional-bio" rows="4"></textarea>
+        </div>
+        <div>
+          <label>Primary Skill</label>
+          <select id="primary-skill">
+            <option value="Frontend">Frontend</option>
+            <option value="Backend">Backend</option>
+            <option value="DevOps">DevOps</option>
+            <option value="Data Science">Data Science</option>
+          </select>
+        </div>
+        <div class="terms-box">
+          <input type="checkbox" id="terms" name="terms" required />
+          <label for="terms"> I agree to the terms and conditions</label>
+        </div>
+        <div class="buttons">
+          <button type="submit" id="submit-btn">Submit</button>
+          <button type="button" id="view-profile">View Profile</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <span class="close">close</span>
+        <h2>User Profile</h2>
+        <p><strong>Full Name:</strong> <span id="modal-full-name"></span></p>
+        <p>
+          <strong>Professional Bio:</strong>
+          <span id="modal-professional-bio"></span>
+        </p>
+        <p>
+          <strong>Primary Skill:</strong> <span id="modal-primary-skill"></span>
+        </p>
+      </div>
+    </div>
+
+    <script>
+      const modal = document.getElementById("myModal");
+      const btn = document.getElementById("view-profile");
+      const closeBtn = document.getElementsByClassName("close")[0];
+      //   const submitBtn = document.getElementById("submit-btn");
+
+      //   var fullName = "";
+      //   var professionalBio = "";
+      //   var primarySkill = "";
+
+      //   submitBtn.onclick = function () {
+      //     fullName = document.getElementById("full-name").value;
+      //     professionalBio = document.getElementById("professional-bio").value;
+      //     primarySkill = document.getElementById("primary-skill").value;
+      //   };
+
+      btn.onclick = function () {
+        document.getElementById("modal-full-name").textContent =
+          document.getElementById("full-name").value;
+        document.getElementById("modal-professional-bio").textContent =
+          document.getElementById("professional-bio").value;
+        document.getElementById("modal-primary-skill").textContent =
+          document.getElementById("primary-skill").value;
+
+        modal.style.display = "block";
+      };
+
+      closeBtn.onclick = function () {
+        modal.style.display = "none";
+      };
+    </script>
+  </body>
+</html>
